@@ -1,0 +1,464 @@
+/* Biopentra Loop Card — portrait card + two-step overlay */
+
+.biopentra-shop-load-more-error {
+	margin: 1rem 0 0;
+	padding: 0.75rem 1rem;
+	border-radius: 8px;
+	background: rgba(180, 40, 40, 0.08);
+	color: #8b1e1e;
+	font-size: 0.95rem;
+	text-align: center;
+}
+
+.elementor-element-ed52b7f.biopentra-shop-loading-more .e-load-more-spinner {
+	display: inline-flex;
+	opacity: 1;
+}
+
+.elementor-element-ed52b7f .e-loop__load-more {
+	margin-top: 2rem;
+	text-align: center;
+}
+
+.elementor-element-ed52b7f.e-load-more-pagination-end .e-loop__load-more .elementor-button {
+	display: none;
+}
+
+.elementor-element-ed52b7f .e-load-more-message {
+	margin-top: 1rem;
+	text-align: center;
+	color: rgba(15, 31, 51, 0.65);
+	font-size: 0.95rem;
+}
+
+.biopentra-shop-loop-error {
+	margin: 0 0 1rem;
+	padding: 0.75rem 1rem;
+	border-radius: 6px;
+	background: #fef2f2;
+	border: 1px solid #fecaca;
+	color: #991b1b;
+	font-size: 0.9375rem;
+	text-align: center;
+}
+
+.biopentra-loop-card-root {
+	position: relative !important;
+	cursor: pointer;
+	width: 100%;
+	max-width: none;
+	margin-inline: 0;
+	box-sizing: border-box;
+	border-radius: 8px;
+	border: 1px solid rgba(15, 31, 51, 0.06);
+	background: #fff;
+	box-shadow:
+		0 1px 2px rgba(15, 31, 51, 0.06),
+		0 8px 24px rgba(15, 31, 51, 0.06);
+	overflow: visible;
+	transition:
+		box-shadow 0.2s ease,
+		transform 0.2s ease;
+}
+
+.biopentra-loop-card-root .elementor-widget-theme-post-featured-image img {
+	width: 100%;
+	object-fit: cover;
+	border-radius: 8px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.biopentra-loop-card-root:hover {
+		transform: translateY(-2px);
+		box-shadow:
+			0 2px 6px rgba(15, 31, 51, 0.08),
+			0 14px 36px rgba(15, 31, 51, 0.1);
+	}
+}
+
+.biopentra-loop-card-root .elementor-element.elementor-widget-woocommerce-product-price {
+	margin-block-end: 0 !important;
+}
+
+.biopentra-loop-card-root .elementor-element.elementor-widget-woocommerce-product-price .elementor-widget-container {
+	padding-bottom: 4px !important;
+}
+
+.biopentra-loop-card-root .elementor-element.elementor-widget-woocommerce-product-price .price {
+	justify-content: center;
+	flex-wrap: wrap;
+}
+
+.biopentra-loop-card-root .elementor-element.elementor-widget-woocommerce-product-price .price,
+.biopentra-loop-card-root .elementor-element.elementor-widget-woocommerce-product-price ins,
+.biopentra-loop-card-root .elementor-element.elementor-widget-woocommerce-product-price bdi {
+	color: #1f5fae !important;
+	font-weight: 600;
+}
+
+.biopentra-loop-card-oos-badge {
+	position: absolute;
+	top: 12px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 4;
+	background: #c62828;
+	color: #fff;
+	font-size: 11px;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	padding: 6px 14px;
+	border-radius: 4px;
+	pointer-events: none;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.biopentra-loop-overlay {
+	position: absolute;
+	inset: 0;
+	z-index: 3;
+	display: flex;
+	flex-direction: column;
+	padding: 12px;
+	background: linear-gradient(
+		180deg,
+		rgba(255, 255, 255, 0.06) 0%,
+		rgba(255, 255, 255, 0.94) 35%,
+		#fff 100%
+	);
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 0.2s ease, visibility 0.2s ease;
+	pointer-events: none;
+	border-radius: inherit;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.biopentra-loop-card-root:hover .biopentra-loop-overlay:not(.biopentra-loop-overlay--hidden),
+	.biopentra-loop-card-root:focus-within .biopentra-loop-overlay:not(.biopentra-loop-overlay--hidden) {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+	}
+}
+
+.biopentra-loop-overlay.is-open {
+	opacity: 1;
+	visibility: visible;
+	pointer-events: auto;
+}
+
+.biopentra-loop-overlay__top {
+	display: flex;
+	justify-content: flex-end;
+	align-items: flex-start;
+	flex-shrink: 0;
+	margin-bottom: 8px;
+}
+
+.biopentra-loop-overlay__close {
+	background: transparent;
+	border: none;
+	color: #5c6b7a;
+	font-size: 13px;
+	font-weight: 600;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 4px 6px;
+	border-radius: 6px;
+}
+
+.biopentra-loop-overlay__close:hover {
+	background: rgba(15, 31, 51, 0.06);
+	color: #0f1f33;
+}
+
+.biopentra-loop-overlay__main {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	justify-content: flex-end;
+	flex: 1;
+	min-height: 0;
+	padding-bottom: 4px;
+}
+
+.biopentra-loop-overlay__main--solo {
+	justify-content: center;
+	padding-bottom: 12px;
+}
+
+.biopentra-loop-overlay--oos-only {
+	background: linear-gradient(
+		180deg,
+		rgba(255, 255, 255, 0.12) 0%,
+		rgba(255, 255, 255, 0.96) 40%,
+		#fff 100%
+	);
+}
+
+.biopentra-loop-overlay__quick {
+	display: none;
+	flex-direction: column;
+	justify-content: flex-end;
+	flex: 1;
+	min-height: 0;
+	text-align: center;
+}
+
+.biopentra-loop-overlay--quick .biopentra-loop-overlay__main {
+	display: none;
+}
+
+.biopentra-loop-overlay--quick .biopentra-loop-overlay__quick {
+	display: flex;
+}
+
+.biopentra-loop-overlay__btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 44px;
+	width: 100%;
+	text-align: center;
+	text-decoration: none !important;
+	font-size: 13px;
+	font-weight: 700;
+	padding: 11px 14px;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+	box-sizing: border-box;
+	border: 2px solid transparent;
+}
+
+.biopentra-loop-overlay__btn--ghost {
+	background: #fff;
+	color: #1f5fae !important;
+	border-color: #1f5fae;
+}
+
+.biopentra-loop-overlay__btn--ghost:hover {
+	background: rgba(31, 95, 174, 0.06);
+}
+
+.biopentra-loop-overlay__btn--primary {
+	background: #1f5fae;
+	color: #fff !important;
+	border-color: #1f5fae;
+}
+
+.biopentra-loop-overlay__btn--primary:hover {
+	background: #174a8c;
+	border-color: #174a8c;
+}
+
+.biopentra-loop-overlay__quick-top {
+	display: flex;
+	justify-content: flex-start;
+	margin-bottom: 10px;
+}
+
+.biopentra-loop-overlay__back {
+	background: none;
+	border: none;
+	color: #5c6b7a;
+	font-size: 13px;
+	font-weight: 600;
+	cursor: pointer;
+	padding: 4px 0;
+}
+
+.biopentra-loop-overlay__back:hover {
+	color: #0f1f33;
+}
+
+.biopentra-loop-overlay__label {
+	font-size: 13px;
+	font-weight: 700;
+	color: #0f1f33;
+	margin-bottom: 10px;
+}
+
+.biopentra-loop-overlay__pills {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	justify-content: center;
+	margin-bottom: 10px;
+	min-height: 36px;
+	align-items: center;
+}
+
+.biopentra-loop-pill {
+	border: 1px solid #d3dde8;
+	background: #fff;
+	color: #0f1f33;
+	font-size: 13px;
+	font-weight: 600;
+	padding: 8px 16px;
+	border-radius: 999px;
+	cursor: pointer;
+	transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.biopentra-loop-pill:hover:not(:disabled) {
+	border-color: #1f5fae;
+	color: #1f5fae;
+}
+
+.biopentra-loop-pill.is-selected {
+	background: #1f5fae;
+	border-color: #1f5fae;
+	color: #fff;
+}
+
+.biopentra-loop-pill:disabled,
+.biopentra-loop-pill.is-disabled {
+	opacity: 0.38;
+	cursor: not-allowed;
+	border-style: dashed;
+}
+
+.biopentra-loop-overlay__clear {
+	background: none;
+	border: none;
+	color: #8a9bab;
+	font-size: 12px;
+	cursor: pointer;
+	margin-top: 2px;
+	text-decoration: underline;
+}
+
+.biopentra-loop-overlay__clear:hover {
+	color: #0f1f33;
+}
+
+.biopentra-loop-overlay__add {
+	width: 100%;
+	min-height: 44px;
+	background: #1f5fae;
+	color: #fff !important;
+	border: none;
+	border-radius: 8px;
+	padding: 12px 16px;
+	font-size: 13px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.04em;
+	cursor: pointer;
+	transition: background 0.15s ease, opacity 0.15s ease;
+	margin-top: 6px;
+}
+
+.biopentra-loop-overlay__add:hover:not(:disabled) {
+	background: #174a8c;
+}
+
+.biopentra-loop-overlay__add:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+}
+
+.biopentra-loop-overlay__msg {
+	font-size: 12px;
+	color: #c62828;
+	margin-top: 8px;
+	min-height: 16px;
+}
+
+.biopentra-loop-card-root.is-all-oos .elementor-widget-theme-post-featured-image img {
+	opacity: 0.55;
+	filter: grayscale(0.25);
+}
+
+/* Shop page: product search row (HTML widget) + live suggestions */
+.biopentra-shop-search {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+	gap: 10px;
+	width: 100%;
+	max-width: min(100%, 520px);
+}
+
+.biopentra-shop-search.is-loading input[type="search"] {
+	opacity: 0.72;
+}
+
+.biopentra-shop-search input[type="search"] {
+	flex: 1 1 min(100%, 220px);
+	min-width: 0;
+	min-height: 44px;
+	padding: 10px 14px;
+	border: 1px solid rgba(15, 31, 51, 0.14);
+	border-radius: 8px;
+	font-size: 15px;
+	background: #fff;
+	color: #0f1f33;
+	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.biopentra-shop-search input[type="search"]:focus {
+	outline: none;
+	border-color: rgba(31, 95, 174, 0.45);
+	box-shadow: 0 0 0 3px rgba(31, 95, 174, 0.12);
+}
+
+.biopentra-shop-live {
+	flex: 1 1 100%;
+	order: 10;
+	margin-top: 2px;
+	border-radius: 8px;
+	background: #fff;
+	border: 1px solid rgba(15, 31, 51, 0.12);
+	box-shadow: 0 10px 28px rgba(15, 31, 51, 0.1);
+	max-height: min(60vh, 320px);
+	overflow: auto;
+	z-index: 40;
+}
+
+.biopentra-shop-live__list {
+	list-style: none;
+	margin: 0;
+	padding: 6px 0;
+}
+
+.biopentra-shop-live__item {
+	margin: 0;
+}
+
+.biopentra-shop-live__link {
+	display: block;
+	padding: 10px 14px;
+	font-size: 15px;
+	color: #0f1f33;
+	text-decoration: none;
+	line-height: 1.35;
+}
+
+.biopentra-shop-live__link:hover,
+.biopentra-shop-live__link:focus {
+	background: #f0f5fb;
+	color: #1f5fae;
+	outline: none;
+}
+
+.biopentra-shop-live__status {
+	padding: 12px 14px;
+	font-size: 14px;
+	color: #5a6b7f;
+}
+
+.biopentra-shop-live__status--empty,
+.biopentra-shop-live__status--err {
+	text-align: center;
+}
+
+.biopentra-shop-live__status--err {
+	color: #b71c1c;
+}

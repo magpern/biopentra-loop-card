@@ -1,0 +1,50 @@
+/**
+ * WooCommerce store notice (Settings → Site visibility → Store notice).
+ * Loaded only when the notice is enabled. Do not edit WooCommerce core
+ * (e.g. woocommerce.css); override here so updates stay safe.
+ *
+ * In document flow (not position:absolute) so content below is not covered.
+ *
+ * Blocksy adds a .demo_store::before icon (woo font, \\e901). Hide it here so
+ * only your notice text shows.
+ */
+
+body.woocommerce-demo-store .woocommerce-store-notice.demo_store::before,
+body.woocommerce-demo-store .demo_store::before {
+	display: none !important;
+	content: none !important;
+}
+
+body.woocommerce-demo-store .woocommerce-store-notice.demo_store {
+	position: relative;
+	left: auto;
+	right: auto;
+	top: auto;
+	margin: 0;
+	width: 100%;
+	max-width: none;
+	z-index: 1;
+	box-sizing: border-box;
+	text-align: center;
+	font-size: 0.9375rem;
+	line-height: 1.5;
+	font-weight: 500;
+	letter-spacing: 0.01em;
+	padding: 0.85rem clamp(1rem, 3vw, 2.5rem);
+	background: linear-gradient(100deg, #174a87 0%, #1f5fae 55%, #3a78c2 100%);
+	color: #ffffff;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+	box-shadow: 0 2px 12px rgba(15, 31, 51, 0.1);
+	clear: both;
+}
+
+body.woocommerce-demo-store .woocommerce-store-notice.demo_store a {
+	color: #e8f1fc;
+	text-decoration: underline;
+	text-underline-offset: 2px;
+}
+
+body.woocommerce-demo-store .woocommerce-store-notice.demo_store a:hover,
+body.woocommerce-demo-store .woocommerce-store-notice.demo_store a:focus {
+	color: #ffffff;
+}
