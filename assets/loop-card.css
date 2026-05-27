@@ -44,7 +44,7 @@
 
 .biopentra-loop-card-root {
 	position: relative !important;
-	--bp-loop-card-image-height: 202px;
+	--bp-loop-card-image-height: 238px;
 	--bp-loop-card-radius: 20px;
 	--bp-loop-image-radius: 16px;
 	cursor: default;
@@ -69,6 +69,8 @@
 	border-radius: inherit !important;
 	background: transparent !important;
 	box-shadow: none !important;
+	gap: 0 !important;
+	padding: 0 0 8px !important;
 	overflow: hidden;
 }
 
@@ -76,8 +78,13 @@
 	display: none !important;
 }
 
+.biopentra-loop-card-root .biopentra-loop-card-img {
+	padding: 8px 8px 0 !important;
+	box-sizing: border-box;
+}
+
 .biopentra-loop-card-root .biopentra-loop-card-img .elementor-widget-container {
-	padding: 9px 9px 0;
+	padding: 0 !important;
 }
 
 .biopentra-loop-card-root .elementor-widget-theme-post-featured-image img,
@@ -105,15 +112,19 @@
 }
 
 .biopentra-loop-card-root .elementor-widget-woocommerce-product-title {
-	margin: 10px 14px 0 !important;
+	margin: 7px 12px 0 !important;
 	text-align: center;
 }
 
 .biopentra-loop-card-root .elementor-widget-woocommerce-product-title .elementor-heading-title {
 	margin: 0;
-	font-size: 16px !important;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	overflow: hidden;
+	font-size: 15px !important;
 	font-weight: 650 !important;
-	line-height: 1.22 !important;
+	line-height: 1.16 !important;
 	letter-spacing: -0.01em;
 	color: #0f1f33 !important;
 }
@@ -137,7 +148,7 @@
 }
 
 .biopentra-loop-card-root .elementor-element.elementor-widget-woocommerce-product-price {
-	margin: 2px 14px 13px !important;
+	margin: 2px 12px 3px !important;
 	text-align: center;
 }
 
@@ -154,8 +165,8 @@
 	justify-content: center;
 	flex-wrap: wrap;
 	gap: 2px 4px;
-	font-size: 14px;
-	line-height: 1.25;
+	font-size: 13px;
+	line-height: 1.18;
 }
 
 .biopentra-loop-card-root .elementor-element.elementor-widget-woocommerce-product-price .price,
@@ -525,44 +536,53 @@
 
 @media (max-width: 1024px) {
 	.biopentra-loop-card-root {
-		--bp-loop-card-image-height: 172px;
+		--bp-loop-card-image-height: 210px;
 		--bp-loop-card-radius: 18px;
 	}
 }
 
 @media (max-width: 767px) {
 	.biopentra-loop-card-root {
-		--bp-loop-card-image-height: 132px;
+		--bp-loop-card-image-height: 160px;
 		--bp-loop-card-radius: 17px;
 		--bp-loop-image-radius: 14px;
 	}
 
+	.biopentra-loop-card-root .elementor-element-393cffb {
+		padding-bottom: 6px !important;
+	}
+
+	.biopentra-loop-card-root .biopentra-loop-card-img {
+		padding: 6px 6px 0 !important;
+	}
+
 	.biopentra-loop-card-root .biopentra-loop-card-img .elementor-widget-container {
-		padding: 7px 7px 0;
+		padding: 0 !important;
 	}
 
 	.biopentra-loop-card-root .elementor-widget-woocommerce-product-title {
-		margin: 8px 9px 0 !important;
+		margin: 5px 8px 0 !important;
 	}
 
 	.biopentra-loop-card-root .elementor-widget-woocommerce-product-title .elementor-heading-title {
-		font-size: 14px !important;
-		line-height: 1.2 !important;
+		font-size: 13px !important;
+		line-height: 1.14 !important;
 	}
 
 	.biopentra-loop-card-root .elementor-element.elementor-widget-woocommerce-product-price {
-		margin: 2px 9px 10px !important;
+		margin: 1px 8px 2px !important;
 	}
 
 	.biopentra-loop-card-root .elementor-element.elementor-widget-woocommerce-product-price .price {
-		font-size: 13px;
+		font-size: 12px;
+		line-height: 1.15;
 	}
 
 	.biopentra-loop-card-action {
-		top: 14px;
-		right: 14px;
-		width: 34px;
-		height: 34px;
+		top: 11px;
+		right: 11px;
+		width: 32px;
+		height: 32px;
 	}
 
 	.biopentra-loop-card-action__icon {

@@ -1,5 +1,14 @@
 # Changelog — Biopentra Loop Card
 
+## [1.3.2] - 2026-05-27
+
+### Changed
+
+- Removed inherited Elementor card gap and excess container padding that made product cards feel stretched.
+- Increased product image height across desktop, tablet, and mobile so cards read as image-led.
+- Tightened image, title, and price spacing while preserving readable typography and touch targets.
+- Kept the quick-add overlay absolutely positioned and out of layout flow.
+
 ## [1.3.1] - 2026-05-27
 
 ### Fixed
