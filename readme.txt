@@ -2,7 +2,7 @@
 Contributors: magpern
 Requires at least: 6.0
 Requires PHP: 7.4
-Stable tag: 1.3.2
+Stable tag: 1.3.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,12 +14,16 @@ WordPress plugin for Elementor Loop Grid product cards on WooCommerce shops.
 
 == Installation ==
 
-1. Upload `biopentra-loop-card-1.3.2.zip` via Plugins → Add New → Upload.
+1. Upload `biopentra-loop-card-1.3.3.zip` via Plugins → Add New → Upload.
 2. Activate the plugin.
 
 Requires WooCommerce and Elementor Pro (Loop Grid).
 
 == Changelog ==
+
+= 1.3.3 =
+* Animate the full-card quick-add overlay upward from the bottom of the card.
+* Slightly reduce remaining card bottom whitespace while preserving image dominance.
 
 = 1.3.2 =
 * Tighten Elementor Loop Grid card spacing by removing inherited template gap and dead vertical padding.

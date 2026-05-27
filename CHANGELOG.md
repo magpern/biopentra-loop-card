@@ -1,5 +1,12 @@
 # Changelog — Biopentra Loop Card
 
+## [1.3.3] - 2026-05-28
+
+### Changed
+
+- Quick-add overlay now slides upward from the bottom of the card while staying absolutely positioned.
+- Reduced the remaining lower card whitespace by trimming card container and price bottom spacing.
+
 ## [1.3.2] - 2026-05-27
 
 ### Changed
