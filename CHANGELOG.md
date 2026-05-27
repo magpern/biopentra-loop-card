@@ -1,5 +1,14 @@
 # Changelog — Biopentra Loop Card
 
+## [1.3.1] - 2026-05-27
+
+### Fixed
+
+- Plus/cart action now opens a full-card action menu across mobile, tablet, and desktop.
+- Variation Strength selection now uses the same full-card overlay instead of a cramped image-only panel.
+- Back and Close return to the normal product card state.
+- Full-card overlay is absolutely positioned so it does not change card layout height, with internal scrolling limited to long variation lists only.
+
 ## [1.3.0] - 2026-05-27
 
 ### Added

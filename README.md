@@ -24,7 +24,7 @@ bash scripts/build-zip.sh
 bash scripts/release-audit.sh
 ```
 
-Tag `v{version}` (e.g. `v1.3.0`) to publish a GitHub Release with `biopentra-loop-card-{version}.zip`.
+Tag `v{version}` (e.g. `v1.3.1`) to publish a GitHub Release with `biopentra-loop-card-{version}.zip`.
 
 ## Monorepo mirror
 
