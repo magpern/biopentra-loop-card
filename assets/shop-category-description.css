@@ -1,0 +1,54 @@
+/* Shop loop grid: SEO copy sits before .elementor-widget-container — share its column */
+.elementor-element-ed52b7f.elementor-widget-loop-grid {
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+}
+
+.elementor-element-ed52b7f > .mp-category-description,
+.elementor-element-ed52b7f > .elementor-widget-container {
+	grid-column: 1;
+	min-width: 0;
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+}
+
+/* Matches shop intro text (.elementor-element-f2917e3): Inter 14px / 1.55, muted body copy */
+.elementor-element-ed52b7f > .mp-category-description {
+	margin: 0 0 20px;
+	padding: 0;
+}
+
+.mp-category-description[hidden] {
+	display: none !important;
+}
+
+.mp-category-description__panel[hidden] {
+	display: none;
+}
+
+.mp-category-description__inner {
+	font-family: "Inter", var(--theme-font-family, sans-serif);
+	font-size: 14px;
+	line-height: 1.55;
+	color: var(--e-global-color-text-muted, #5a6b7f);
+	max-width: 100%;
+}
+
+.mp-category-description__inner p {
+	margin: 0 0 0.75em;
+}
+
+.mp-category-description__inner p:last-child {
+	margin-bottom: 0;
+}
+
+@media (max-width: 767px) {
+	.elementor-element-ed52b7f > .mp-category-description {
+		margin-bottom: 16px;
+	}
+
+	.mp-category-description__inner {
+		font-size: 14px;
+	}
+}

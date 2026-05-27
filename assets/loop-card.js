@@ -33,6 +33,13 @@
 	}
 
 	function buildOverlay(root, data) {
+		var actionBtn = document.createElement('button');
+		actionBtn.type = 'button';
+		actionBtn.className = 'biopentra-loop-card-action';
+		actionBtn.setAttribute('aria-label', t('quickShop'));
+		actionBtn.innerHTML =
+			'<span class="biopentra-loop-card-action__icon" aria-hidden="true">+</span>';
+
 		var ov = document.createElement('div');
 		ov.className = 'biopentra-loop-overlay';
 		ov.setAttribute('role', 'dialog');
@@ -111,9 +118,11 @@
 		ov.appendChild(main);
 		ov.appendChild(quick);
 
+		root.appendChild(actionBtn);
 		root.appendChild(ov);
 
 		return {
+			actionBtn: actionBtn,
 			ov: ov,
 			closeBtn: closeBtn,
 			main: main,
@@ -182,6 +191,50 @@
 		ui.msg.textContent = '';
 	}
 
+	function setOverlayOpen(root, ui, open) {
+		ui.ov.classList.toggle('is-open', open);
+		root.classList.toggle('is-overlay-open', open);
+		ui.actionBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+	}
+
+	function openOverlay(root, ui, data, quick) {
+		if (!quick) {
+			resetQuickState(ui, data);
+		}
+		ui.ov.classList.toggle('biopentra-loop-overlay--quick', !!quick);
+		setOverlayOpen(root, ui, true);
+	}
+
+	function linkCardContent(root, data) {
+		var imageContainer = root.querySelector(
+			'.elementor-widget-theme-post-featured-image .elementor-widget-container'
+		);
+		var image = imageContainer
+			? imageContainer.querySelector('img')
+			: root.querySelector('.elementor-widget-theme-post-featured-image img');
+		if (image && !image.closest('a')) {
+			var imageLink = document.createElement('a');
+			imageLink.className = 'biopentra-loop-card-media-link';
+			imageLink.href = data.permalink;
+			imageLink.setAttribute('aria-label', image.getAttribute('alt') || t('viewProduct'));
+			image.parentNode.insertBefore(imageLink, image);
+			imageLink.appendChild(image);
+		}
+
+		var title = root.querySelector(
+			'.elementor-widget-woocommerce-product-title .elementor-heading-title'
+		);
+		if (title && !title.querySelector('a')) {
+			var titleLink = document.createElement('a');
+			titleLink.className = 'biopentra-loop-card-title-link';
+			titleLink.href = data.permalink;
+			while (title.firstChild) {
+				titleLink.appendChild(title.firstChild);
+			}
+			title.appendChild(titleLink);
+		}
+	}
+
 	function addToCart(ui, data) {
 		var fd = new FormData();
 		fd.append('quantity', '1');
@@ -204,6 +257,8 @@
 
 		ui.addBtn.disabled = true;
 		ui.addBtn.textContent = t('adding');
+		ui.actionBtn.disabled = true;
+		ui.actionBtn.classList.add('is-loading');
 		ui.msg.textContent = '';
 
 		fetch(ajaxUrl(), {
@@ -221,6 +276,8 @@
 				}
 				ui.addBtn.textContent = t('addToCart');
 				ui.addBtn.disabled = false;
+				ui.actionBtn.disabled = false;
+				ui.actionBtn.classList.remove('is-loading');
 				var $ = window.jQuery;
 				if ($ && $.fn && $.fn.trigger) {
 					$(document.body).trigger('added_to_cart', [
@@ -230,12 +287,14 @@
 					]);
 				}
 				resetQuickState(ui, data);
-				ui.ov.classList.remove('is-open');
+				setOverlayOpen(ui.ov.parentNode, ui, false);
 			})
 			.catch(function () {
 				ui.msg.textContent = 'Error';
 				ui.addBtn.textContent = t('addToCart');
 				ui.addBtn.disabled = false;
+				ui.actionBtn.disabled = false;
+				ui.actionBtn.classList.remove('is-loading');
 			});
 	}
 
@@ -249,8 +308,12 @@
 		}
 		root.setAttribute('data-biopentra-enhanced', '1');
 
+		linkCardContent(root, data);
+
 		var ui = buildOverlay(root, data);
 		ui._data = data;
+		ui.actionBtn.setAttribute('aria-haspopup', 'dialog');
+		ui.actionBtn.setAttribute('aria-expanded', 'false');
 
 		var fine = prefersFinePointer();
 		var oosOnly = !data.any_in_stock;
@@ -267,6 +330,8 @@
 			ui.quick.style.display = 'none';
 			ui.main.classList.add('biopentra-loop-overlay__main--solo');
 			btnViewProminent(ui.btnView);
+			ui.actionBtn.classList.add('is-disabled');
+			ui.actionBtn.setAttribute('aria-label', t('outOfStock'));
 		} else {
 			renderPills(ui, data);
 
@@ -280,7 +345,7 @@
 				e.preventDefault();
 				e.stopPropagation();
 				if (data.variations && data.variations.length) {
-					ui.ov.classList.add('biopentra-loop-overlay--quick');
+					openOverlay(root, ui, data, true);
 					return;
 				}
 				addToCart(ui, data);
@@ -308,6 +373,20 @@
 			});
 		}
 
+		ui.actionBtn.addEventListener('click', function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+			if (oosOnly) {
+				openOverlay(root, ui, data, false);
+				return;
+			}
+			if (data.variations && data.variations.length) {
+				openOverlay(root, ui, data, true);
+				return;
+			}
+			addToCart(ui, data);
+		});
+
 		root.addEventListener(
 			'click',
 			function (e) {
@@ -316,7 +395,12 @@
 				if (e.target.closest('button')) return;
 				if (!fine) {
 					e.preventDefault();
-					ui.ov.classList.toggle('is-open');
+					if (ui.ov.classList.contains('is-open')) {
+						resetQuickState(ui, data);
+						setOverlayOpen(root, ui, false);
+					} else {
+						openOverlay(root, ui, data, false);
+					}
 				}
 			},
 			false
@@ -325,6 +409,7 @@
 		if (fine) {
 			root.addEventListener('mouseleave', function () {
 				resetQuickState(ui, data);
+				setOverlayOpen(root, ui, false);
 			});
 		}
 
@@ -332,7 +417,7 @@
 			e.preventDefault();
 			e.stopPropagation();
 			resetQuickState(ui, data);
-			ui.ov.classList.remove('is-open');
+			setOverlayOpen(root, ui, false);
 		});
 
 		ui.ov.addEventListener('click', function (e) {

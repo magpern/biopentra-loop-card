@@ -44,49 +44,118 @@
 
 .biopentra-loop-card-root {
 	position: relative !important;
-	cursor: pointer;
+	--bp-loop-card-image-height: 202px;
+	--bp-loop-card-radius: 20px;
+	--bp-loop-image-radius: 16px;
+	cursor: default;
 	width: 100%;
 	max-width: none;
 	margin-inline: 0;
 	box-sizing: border-box;
-	border-radius: 8px;
-	border: 1px solid rgba(15, 31, 51, 0.06);
+	border-radius: var(--bp-loop-card-radius);
+	border: 1px solid rgba(31, 95, 174, 0.12);
 	background: #fff;
 	box-shadow:
-		0 1px 2px rgba(15, 31, 51, 0.06),
-		0 8px 24px rgba(15, 31, 51, 0.06);
+		0 1px 2px rgba(15, 31, 51, 0.04),
+		0 14px 34px rgba(15, 31, 51, 0.07);
 	overflow: visible;
 	transition:
 		box-shadow 0.2s ease,
 		transform 0.2s ease;
 }
 
-.biopentra-loop-card-root .elementor-widget-theme-post-featured-image img {
+.biopentra-loop-card-root .elementor-element-393cffb {
+	border: 0 !important;
+	border-radius: inherit !important;
+	background: transparent !important;
+	box-shadow: none !important;
+	overflow: hidden;
+}
+
+.biopentra-loop-card-root .elementor-element-51251fe {
+	display: none !important;
+}
+
+.biopentra-loop-card-root .biopentra-loop-card-img .elementor-widget-container {
+	padding: 9px 9px 0;
+}
+
+.biopentra-loop-card-root .elementor-widget-theme-post-featured-image img,
+.biopentra-loop-card-root .biopentra-loop-card-media-link {
+	display: block;
 	width: 100%;
+	height: var(--bp-loop-card-image-height) !important;
 	object-fit: cover;
-	border-radius: 8px;
+	border-radius: var(--bp-loop-image-radius);
+	overflow: hidden;
+	background: #eef4fa;
+	transition:
+		filter 0.2s ease,
+		opacity 0.2s ease,
+		transform 0.22s ease;
+}
+
+.biopentra-loop-card-root .elementor-widget-theme-post-featured-image img {
+	height: 100% !important;
+}
+
+.biopentra-loop-card-root .biopentra-loop-card-media-link {
+	color: inherit;
+	text-decoration: none;
+}
+
+.biopentra-loop-card-root .elementor-widget-woocommerce-product-title {
+	margin: 10px 14px 0 !important;
+	text-align: center;
+}
+
+.biopentra-loop-card-root .elementor-widget-woocommerce-product-title .elementor-heading-title {
+	margin: 0;
+	font-size: 16px !important;
+	font-weight: 650 !important;
+	line-height: 1.22 !important;
+	letter-spacing: -0.01em;
+	color: #0f1f33 !important;
+}
+
+.biopentra-loop-card-root .biopentra-loop-card-title-link {
+	color: inherit !important;
+	text-decoration: none !important;
 }
 
 @media (hover: hover) and (pointer: fine) {
 	.biopentra-loop-card-root:hover {
 		transform: translateY(-2px);
 		box-shadow:
-			0 2px 6px rgba(15, 31, 51, 0.08),
-			0 14px 36px rgba(15, 31, 51, 0.1);
+			0 3px 8px rgba(15, 31, 51, 0.08),
+			0 18px 42px rgba(15, 31, 51, 0.11);
+	}
+
+	.biopentra-loop-card-root:hover .elementor-widget-theme-post-featured-image img {
+		transform: scale(1.018);
 	}
 }
 
 .biopentra-loop-card-root .elementor-element.elementor-widget-woocommerce-product-price {
-	margin-block-end: 0 !important;
+	margin: 2px 14px 13px !important;
+	text-align: center;
 }
 
 .biopentra-loop-card-root .elementor-element.elementor-widget-woocommerce-product-price .elementor-widget-container {
-	padding-bottom: 4px !important;
+	padding-bottom: 0 !important;
+}
+
+.biopentra-loop-card-root .elementor-element.elementor-widget-woocommerce-product-price p {
+	margin: 0;
+	line-height: 1.25;
 }
 
 .biopentra-loop-card-root .elementor-element.elementor-widget-woocommerce-product-price .price {
 	justify-content: center;
 	flex-wrap: wrap;
+	gap: 2px 4px;
+	font-size: 14px;
+	line-height: 1.25;
 }
 
 .biopentra-loop-card-root .elementor-element.elementor-widget-woocommerce-product-price .price,
@@ -96,11 +165,82 @@
 	font-weight: 600;
 }
 
+.biopentra-loop-card-root.is-overlay-open .elementor-widget-theme-post-featured-image img {
+	filter: saturate(0.92) blur(1px);
+	opacity: 0.62;
+}
+
+.biopentra-loop-card-action {
+	position: absolute;
+	top: 18px;
+	right: 18px;
+	z-index: 5;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 38px;
+	height: 38px;
+	padding: 0;
+	border: 1px solid rgba(31, 95, 174, 0.18);
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.94);
+	color: #1f5fae;
+	box-shadow:
+		0 4px 14px rgba(15, 31, 51, 0.12),
+		0 1px 2px rgba(15, 31, 51, 0.06);
+	cursor: pointer;
+	transition:
+		background 0.15s ease,
+		box-shadow 0.15s ease,
+		color 0.15s ease,
+		transform 0.15s ease;
+}
+
+.biopentra-loop-card-action__icon {
+	display: block;
+	margin-top: -1px;
+	font-size: 24px;
+	font-weight: 600;
+	line-height: 1;
+}
+
+.biopentra-loop-card-action:hover:not(:disabled),
+.biopentra-loop-card-action:focus-visible {
+	background: #1f5fae;
+	color: #fff;
+	box-shadow: 0 8px 20px rgba(31, 95, 174, 0.24);
+	transform: translateY(-1px);
+}
+
+.biopentra-loop-card-action:focus-visible {
+	outline: 2px solid rgba(31, 95, 174, 0.28);
+	outline-offset: 3px;
+}
+
+.biopentra-loop-card-action:disabled {
+	cursor: not-allowed;
+	opacity: 0.58;
+}
+
+.biopentra-loop-card-action.is-loading .biopentra-loop-card-action__icon {
+	animation: biopentra-loop-card-pulse 0.7s ease-in-out infinite alternate;
+}
+
+@keyframes biopentra-loop-card-pulse {
+	from {
+		opacity: 0.45;
+		transform: scale(0.92);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
 .biopentra-loop-card-oos-badge {
 	position: absolute;
-	top: 12px;
-	left: 50%;
-	transform: translateX(-50%);
+	top: 18px;
+	left: 18px;
 	z-index: 4;
 	background: #c62828;
 	color: #fff;
@@ -108,45 +248,44 @@
 	font-weight: 700;
 	letter-spacing: 0.04em;
 	text-transform: uppercase;
-	padding: 6px 14px;
-	border-radius: 4px;
+	padding: 6px 11px;
+	border-radius: 999px;
 	pointer-events: none;
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
 .biopentra-loop-overlay {
 	position: absolute;
-	inset: 0;
+	top: 9px;
+	right: 9px;
+	left: 9px;
+	height: var(--bp-loop-card-image-height);
+	max-height: calc(100% - 18px);
 	z-index: 3;
 	display: flex;
 	flex-direction: column;
-	padding: 12px;
-	background: linear-gradient(
-		180deg,
-		rgba(255, 255, 255, 0.06) 0%,
-		rgba(255, 255, 255, 0.94) 35%,
-		#fff 100%
-	);
+	padding: 10px;
+	background: rgba(255, 255, 255, 0.92);
+	backdrop-filter: blur(7px);
 	opacity: 0;
 	visibility: hidden;
-	transition: opacity 0.2s ease, visibility 0.2s ease;
+	overflow: auto;
+	transition:
+		opacity 0.2s ease,
+		visibility 0.2s ease,
+		transform 0.2s ease;
+	transform: translateY(4px);
 	pointer-events: none;
-	border-radius: inherit;
-}
-
-@media (hover: hover) and (pointer: fine) {
-	.biopentra-loop-card-root:hover .biopentra-loop-overlay:not(.biopentra-loop-overlay--hidden),
-	.biopentra-loop-card-root:focus-within .biopentra-loop-overlay:not(.biopentra-loop-overlay--hidden) {
-		opacity: 1;
-		visibility: visible;
-		pointer-events: auto;
-	}
+	border: 1px solid rgba(31, 95, 174, 0.12);
+	border-radius: var(--bp-loop-image-radius);
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.82);
 }
 
 .biopentra-loop-overlay.is-open {
 	opacity: 1;
 	visibility: visible;
 	pointer-events: auto;
+	transform: translateY(0);
 }
 
 .biopentra-loop-overlay__top {
@@ -154,21 +293,21 @@
 	justify-content: flex-end;
 	align-items: flex-start;
 	flex-shrink: 0;
-	margin-bottom: 8px;
+	margin-bottom: 6px;
 }
 
 .biopentra-loop-overlay__close {
-	background: transparent;
-	border: none;
+	background: rgba(255, 255, 255, 0.72);
+	border: 1px solid rgba(15, 31, 51, 0.08);
 	color: #5c6b7a;
-	font-size: 13px;
+	font-size: 12px;
 	font-weight: 600;
 	cursor: pointer;
 	display: inline-flex;
 	align-items: center;
 	gap: 6px;
-	padding: 4px 6px;
-	border-radius: 6px;
+	padding: 4px 8px;
+	border-radius: 999px;
 }
 
 .biopentra-loop-overlay__close:hover {
@@ -179,34 +318,30 @@
 .biopentra-loop-overlay__main {
 	display: flex;
 	flex-direction: column;
-	gap: 10px;
-	justify-content: flex-end;
+	gap: 8px;
+	justify-content: center;
 	flex: 1;
 	min-height: 0;
-	padding-bottom: 4px;
+	padding: 0 2px 4px;
 }
 
 .biopentra-loop-overlay__main--solo {
 	justify-content: center;
-	padding-bottom: 12px;
+	padding-bottom: 8px;
 }
 
 .biopentra-loop-overlay--oos-only {
-	background: linear-gradient(
-		180deg,
-		rgba(255, 255, 255, 0.12) 0%,
-		rgba(255, 255, 255, 0.96) 40%,
-		#fff 100%
-	);
+	background: rgba(255, 255, 255, 0.94);
 }
 
 .biopentra-loop-overlay__quick {
 	display: none;
 	flex-direction: column;
-	justify-content: flex-end;
+	justify-content: center;
 	flex: 1;
 	min-height: 0;
 	text-align: center;
+	padding: 0 2px 4px;
 }
 
 .biopentra-loop-overlay--quick .biopentra-loop-overlay__main {
@@ -221,18 +356,18 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	min-height: 44px;
+	min-height: 38px;
 	width: 100%;
 	text-align: center;
 	text-decoration: none !important;
-	font-size: 13px;
+	font-size: 12px;
 	font-weight: 700;
-	padding: 11px 14px;
-	border-radius: 8px;
+	padding: 9px 12px;
+	border-radius: 999px;
 	cursor: pointer;
 	transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
 	box-sizing: border-box;
-	border: 2px solid transparent;
+	border: 1px solid transparent;
 }
 
 .biopentra-loop-overlay__btn--ghost {
@@ -259,17 +394,18 @@
 .biopentra-loop-overlay__quick-top {
 	display: flex;
 	justify-content: flex-start;
-	margin-bottom: 10px;
+	margin-bottom: 6px;
 }
 
 .biopentra-loop-overlay__back {
-	background: none;
-	border: none;
+	background: rgba(255, 255, 255, 0.72);
+	border: 1px solid rgba(15, 31, 51, 0.08);
+	border-radius: 999px;
 	color: #5c6b7a;
-	font-size: 13px;
+	font-size: 12px;
 	font-weight: 600;
 	cursor: pointer;
-	padding: 4px 0;
+	padding: 4px 8px;
 }
 
 .biopentra-loop-overlay__back:hover {
@@ -277,19 +413,19 @@
 }
 
 .biopentra-loop-overlay__label {
-	font-size: 13px;
+	font-size: 12px;
 	font-weight: 700;
 	color: #0f1f33;
-	margin-bottom: 10px;
+	margin-bottom: 7px;
 }
 
 .biopentra-loop-overlay__pills {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 8px;
+	gap: 6px;
 	justify-content: center;
-	margin-bottom: 10px;
-	min-height: 36px;
+	margin-bottom: 7px;
+	min-height: 30px;
 	align-items: center;
 }
 
@@ -297,9 +433,9 @@
 	border: 1px solid #d3dde8;
 	background: #fff;
 	color: #0f1f33;
-	font-size: 13px;
+	font-size: 12px;
 	font-weight: 600;
-	padding: 8px 16px;
+	padding: 6px 11px;
 	border-radius: 999px;
 	cursor: pointer;
 	transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
@@ -339,19 +475,19 @@
 
 .biopentra-loop-overlay__add {
 	width: 100%;
-	min-height: 44px;
+	min-height: 38px;
 	background: #1f5fae;
 	color: #fff !important;
 	border: none;
-	border-radius: 8px;
-	padding: 12px 16px;
-	font-size: 13px;
+	border-radius: 999px;
+	padding: 9px 12px;
+	font-size: 12px;
 	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 0.04em;
 	cursor: pointer;
 	transition: background 0.15s ease, opacity 0.15s ease;
-	margin-top: 6px;
+	margin-top: 4px;
 }
 
 .biopentra-loop-overlay__add:hover:not(:disabled) {
@@ -366,13 +502,93 @@
 .biopentra-loop-overlay__msg {
 	font-size: 12px;
 	color: #c62828;
-	margin-top: 8px;
-	min-height: 16px;
+	margin-top: 6px;
+	min-height: 14px;
 }
 
 .biopentra-loop-card-root.is-all-oos .elementor-widget-theme-post-featured-image img {
 	opacity: 0.55;
 	filter: grayscale(0.25);
+}
+
+@media (max-width: 1024px) {
+	.biopentra-loop-card-root {
+		--bp-loop-card-image-height: 172px;
+		--bp-loop-card-radius: 18px;
+	}
+}
+
+@media (max-width: 767px) {
+	.biopentra-loop-card-root {
+		--bp-loop-card-image-height: 132px;
+		--bp-loop-card-radius: 17px;
+		--bp-loop-image-radius: 14px;
+	}
+
+	.biopentra-loop-card-root .biopentra-loop-card-img .elementor-widget-container {
+		padding: 7px 7px 0;
+	}
+
+	.biopentra-loop-card-root .elementor-widget-woocommerce-product-title {
+		margin: 8px 9px 0 !important;
+	}
+
+	.biopentra-loop-card-root .elementor-widget-woocommerce-product-title .elementor-heading-title {
+		font-size: 14px !important;
+		line-height: 1.2 !important;
+	}
+
+	.biopentra-loop-card-root .elementor-element.elementor-widget-woocommerce-product-price {
+		margin: 2px 9px 10px !important;
+	}
+
+	.biopentra-loop-card-root .elementor-element.elementor-widget-woocommerce-product-price .price {
+		font-size: 13px;
+	}
+
+	.biopentra-loop-card-action {
+		top: 14px;
+		right: 14px;
+		width: 34px;
+		height: 34px;
+	}
+
+	.biopentra-loop-card-action__icon {
+		font-size: 22px;
+	}
+
+	.biopentra-loop-card-oos-badge {
+		top: 14px;
+		left: 14px;
+		font-size: 10px;
+		padding: 5px 9px;
+	}
+
+	.biopentra-loop-overlay {
+		top: 7px;
+		right: 7px;
+		left: 7px;
+		height: var(--bp-loop-card-image-height);
+		padding: 8px;
+	}
+
+	.biopentra-loop-overlay__close,
+	.biopentra-loop-overlay__back,
+	.biopentra-loop-overlay__btn,
+	.biopentra-loop-overlay__add,
+	.biopentra-loop-pill {
+		font-size: 11px;
+	}
+
+	.biopentra-loop-overlay__btn,
+	.biopentra-loop-overlay__add {
+		min-height: 34px;
+		padding: 7px 10px;
+	}
+
+	.biopentra-loop-pill {
+		padding: 5px 9px;
+	}
 }
 
 /* Shop page: product search row (HTML widget) + live suggestions */
