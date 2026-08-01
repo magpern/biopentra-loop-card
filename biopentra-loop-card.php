@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Biopentra Loop Card
  * Description: Elementor Loop Grid: hover overlay (variation + AJAX add to cart), stock banners, card navigation.
- * Version: 1.3.3
+ * Version: 1.4.0-t7
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Text Domain: biopentra-loop-card
@@ -22,7 +22,7 @@ require_once __DIR__ . '/includes/age-gate-confirm-fix.php';
 require_once __DIR__ . '/includes/store-notice.php';
 
 define( 'BIOPENTRA_LOOP_CARD_URL', plugin_dir_url( __FILE__ ) );
-define( 'BIOPENTRA_LOOP_CARD_VER', '1.3.3' );
+define( 'BIOPENTRA_LOOP_CARD_VER', '1.4.0-t7' );
 
 /**
  * GitHub Release updater (admin / cron only).
@@ -214,8 +214,9 @@ function biopentra_loop_card_enqueue_assets() {
 	);
 	wp_enqueue_style( 'biopentra-loop-card' );
 	wp_enqueue_script( 'biopentra-loop-card' );
-	$shop_id = (int) get_option( 'woocommerce_shop_page_id' );
-	if ( $shop_id && is_page( $shop_id ) ) {
+	$shop_id   = (int) get_option( 'woocommerce_shop_page_id' );
+	$load_live = ( $shop_id && is_page( $shop_id ) ) || is_front_page();
+	if ( $load_live ) {
 		wp_enqueue_script( 'biopentra-shop-live-search' );
 		wp_localize_script(
 			'biopentra-shop-live-search',
@@ -534,6 +535,137 @@ function biopentra_loop_card_upgrade_elementor_template() {
 	delete_post_meta( $tpl_id, '_elementor_css' );
 }
 
+/**
+ * Log a v3 migration failure somewhere an administrator will actually see it.
+ * Used only for safe aborts (expected structure not found) — never called
+ * after a partial write, so it never masks template corruption.
+ *
+ * @param string $message Human-readable reason.
+ * @param array  $context Extra structured detail (template id, expected vs found, ...).
+ */
+function biopentra_loop_card_log_v3_failure( $message, array $context = array() ) {
+	$line = sprintf( '[biopentra-loop-card] tpl_v3 migration aborted: %s %s', $message, wp_json_encode( $context ) );
+	if ( function_exists( 'wc_get_logger' ) ) {
+		wc_get_logger()->warning( $line, array( 'source' => 'biopentra-loop-card' ) );
+	}
+	error_log( $line ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+}
+
+/**
+ * v3 upgrade: annotate the loop-item template's own elements with stable,
+ * plugin-owned CSS classes (Elementor's `_css_classes` control) so loop-card.css
+ * no longer has to target per-instance Elementor element ids (393cffb, 51251fe).
+ *
+ * Structural-only: never rewrites `elements`, widget settings, or query/pagination
+ * data — it only ever sets `_css_classes` on elements it has first verified exist
+ * with the expected id + widgetType. If the template has been hand-edited since
+ * the last rewrite (ids/types no longer match what v1/v2 produce), it aborts
+ * without writing anything and logs why via biopentra_loop_card_log_v3_failure() —
+ * it never partially writes, so it can never leave the template corrupted.
+ *
+ * Idempotent: every write is an assignment (not an append/concatenation) of a
+ * fixed literal string, so re-running — even repeatedly — converges to the same
+ * `_elementor_data` every time.
+ *
+ * Template id resolution reuses the same `biopentra_loop_card_template_post_id`
+ * filter as biopentra_loop_card_upgrade_elementor_template() (default 3608),
+ * so production can point this at a different template id without any code
+ * change if the loop-item template's post id differs there.
+ *
+ * @return bool True if the template was verified and updated (or already matched).
+ */
+function biopentra_loop_card_upgrade_elementor_template_v3() {
+	$tpl_id = (int) apply_filters( 'biopentra_loop_card_template_post_id', 3608 );
+	if ( ! $tpl_id || get_post_type( $tpl_id ) !== 'elementor_library' ) {
+		biopentra_loop_card_log_v3_failure( 'template post not found or wrong post type', array( 'template_post_id' => $tpl_id ) );
+		return false;
+	}
+
+	$raw  = get_post_meta( $tpl_id, '_elementor_data', true );
+	$data = json_decode( $raw, true );
+	if ( ! is_array( $data ) || ! isset( $data[0] ) || ! is_array( $data[0] ) ) {
+		biopentra_loop_card_log_v3_failure( 'template _elementor_data missing or malformed', array( 'template_post_id' => $tpl_id ) );
+		return false;
+	}
+
+	$container = $data[0];
+	if ( ( $container['elType'] ?? '' ) !== 'container' || empty( $container['elements'] ) || ! is_array( $container['elements'] ) ) {
+		biopentra_loop_card_log_v3_failure( 'top-level container missing or has no children', array(
+			'template_post_id' => $tpl_id,
+			'top_level_id'      => $container['id'] ?? null,
+		) );
+		return false;
+	}
+
+	// Verify the three card widgets exist with the expected id + widgetType before writing anything.
+	$expected_widgets = array(
+		'5039c87' => 'theme-post-featured-image',
+		'f2a9c81' => 'woocommerce-product-title',
+		'e7b3d44' => 'woocommerce-product-price',
+	);
+	$found = array();
+	foreach ( $container['elements'] as $el ) {
+		if ( isset( $el['id'], $el['widgetType'] ) && isset( $expected_widgets[ $el['id'] ] ) && $expected_widgets[ $el['id'] ] === $el['widgetType'] ) {
+			$found[ $el['id'] ] = true;
+		}
+	}
+	if ( count( $found ) !== count( $expected_widgets ) ) {
+		biopentra_loop_card_log_v3_failure( 'expected media/title/price widgets not found by id+widgetType — template may have been hand-edited', array(
+			'template_post_id' => $tpl_id,
+			'expected'          => $expected_widgets,
+			'found'             => array_keys( $found ),
+		) );
+		return false;
+	}
+
+	// Verified — now write. Every assignment below is idempotent (fixed literal, not appended).
+	//
+	// NOTE: Elementor's "CSS Classes" advanced-tab control is registered under
+	// two different setting keys depending on element type — `css_classes`
+	// (no underscore) for `elType: container`, `_css_classes` (underscore
+	// prefix) for `elType: widget` (see elementor/includes/elements/container.php
+	// vs elementor/includes/widgets/common-base.php). Using the wrong key per
+	// element type silently no-ops: the value sits in `_elementor_data` but
+	// Elementor never renders it, which is exactly what happened to a stale,
+	// pre-existing `_css_classes: "biopentra-loop-card"` value found on this
+	// same container before this migration — confirmed via container.php:1786
+	// and verified by inspecting rendered HTML before/after this fix.
+	$data[0]['settings']['css_classes'] = 'biopentra-loop-card__inner'; // elType: container
+	unset( $data[0]['settings']['_css_classes'] ); // remove the stale, wrong-key (never-rendered) value found on this element
+
+	foreach ( $data[0]['elements'] as &$el ) {
+		if ( ( $el['id'] ?? '' ) === '5039c87' ) {
+			$el['settings']['_css_classes'] = 'biopentra-loop-card-img biopentra-loop-card__media'; // elType: widget
+		} elseif ( ( $el['id'] ?? '' ) === 'f2a9c81' ) {
+			$el['settings']['_css_classes'] = 'biopentra-loop-card__title'; // elType: widget
+		} elseif ( ( $el['id'] ?? '' ) === 'e7b3d44' ) {
+			$el['settings']['_css_classes'] = 'biopentra-loop-card__price'; // elType: widget
+		}
+	}
+	unset( $el );
+
+	// Optional legacy element (unused/hidden decorative container from the original
+	// template design). Only annotated if it is still there, still a container,
+	// and still childless — if it has since gained content or changed type, skip
+	// it rather than risk hiding real content.
+	if ( isset( $data[1] ) && is_array( $data[1] ) && ( $data[1]['id'] ?? '' ) === '51251fe' ) {
+		if ( ( $data[1]['elType'] ?? '' ) === 'container' && empty( $data[1]['elements'] ) ) {
+			if ( ! isset( $data[1]['settings'] ) || ! is_array( $data[1]['settings'] ) ) {
+				$data[1]['settings'] = array();
+			}
+			$data[1]['settings']['css_classes'] = 'biopentra-loop-card__hidden'; // elType: container
+		} else {
+			biopentra_loop_card_log_v3_failure( 'legacy element 51251fe no longer matches expected type/shape — left untouched', array( 'template_post_id' => $tpl_id ) );
+		}
+	}
+
+	update_post_meta( $tpl_id, '_elementor_data', wp_slash( wp_json_encode( $data ) ) );
+	delete_post_meta( $tpl_id, '_elementor_element_cache' );
+	delete_post_meta( $tpl_id, '_elementor_css' );
+
+	return true;
+}
+
 function biopentra_loop_card_maybe_upgrade_elementor_template() {
 	if ( ! get_option( 'biopentra_loop_card_tpl_v1' ) ) {
 		biopentra_loop_card_upgrade_elementor_template();
@@ -542,6 +674,14 @@ function biopentra_loop_card_maybe_upgrade_elementor_template() {
 	if ( ! get_option( 'biopentra_loop_card_tpl_v2' ) ) {
 		biopentra_loop_card_upgrade_elementor_template();
 		update_option( 'biopentra_loop_card_tpl_v2', 1 );
+	}
+	if ( ! get_option( 'biopentra_loop_card_tpl_v3' ) ) {
+		// Only mark done on verified success — a safe abort keeps retrying on
+		// every request until the underlying issue is fixed, it never gets
+		// silently marked "done" while actually incomplete.
+		if ( biopentra_loop_card_upgrade_elementor_template_v3() ) {
+			update_option( 'biopentra_loop_card_tpl_v3', 1 );
+		}
 	}
 }
 add_action( 'init', 'biopentra_loop_card_maybe_upgrade_elementor_template', 30 );
