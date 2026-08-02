@@ -22,7 +22,7 @@ require_once __DIR__ . '/includes/age-gate-confirm-fix.php';
 require_once __DIR__ . '/includes/store-notice.php';
 
 define( 'BIOPENTRA_LOOP_CARD_URL', plugin_dir_url( __FILE__ ) );
-define( 'BIOPENTRA_LOOP_CARD_VER', '1.4.0-t7' );
+define( 'BIOPENTRA_LOOP_CARD_VER', '1.5.0' );
 
 /**
  * GitHub Release updater (admin / cron only).
@@ -215,7 +215,7 @@ function biopentra_loop_card_enqueue_assets() {
 	wp_enqueue_style( 'biopentra-loop-card' );
 	wp_enqueue_script( 'biopentra-loop-card' );
 	$shop_id   = (int) get_option( 'woocommerce_shop_page_id' );
-	$load_live = ( $shop_id && is_page( $shop_id ) ) || is_front_page();
+	$load_live = ( $shop_id && is_page( $shop_id ) ) || is_front_page() || is_search();
 	if ( $load_live ) {
 		wp_enqueue_script( 'biopentra-shop-live-search' );
 		wp_localize_script(

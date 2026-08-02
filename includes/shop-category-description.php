@@ -138,11 +138,11 @@ function biopentra_loop_card_render_category_description_markup(): string {
 }
 
 /**
- * Output description block directly above the shop loop grid.
+ * Output description block directly after the shop loop grid (long-form below products).
  *
  * @param \Elementor\Widget_Base $widget Widget.
  */
-function biopentra_loop_card_inject_category_description_before_loop( $widget ) {
+function biopentra_loop_card_inject_category_description_after_loop( $widget ) {
 	if ( ! biopentra_loop_card_is_shop_context() || ! is_page( (int) wc_get_page_id( 'shop' ) ) ) {
 		return;
 	}
@@ -156,7 +156,7 @@ function biopentra_loop_card_inject_category_description_before_loop( $widget ) 
 	// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in renderer.
 	echo biopentra_loop_card_render_category_description_markup();
 }
-add_action( 'elementor/widget/before_render_content', 'biopentra_loop_card_inject_category_description_before_loop', 5, 1 );
+add_action( 'elementor/widget/after_render_content', 'biopentra_loop_card_inject_category_description_after_loop', 5, 1 );
 
 /**
  * Enqueue shop category description assets.
