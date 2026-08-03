@@ -39,6 +39,7 @@ add_action( 'plugins_loaded', 'biopentra_loop_card_init_github_updater', 9 );
 
 require_once __DIR__ . '/includes/shop-loop-filter.php';
 require_once __DIR__ . '/includes/shop-category-description.php';
+require_once __DIR__ . '/includes/card-image-attributes.php';
 require_once __DIR__ . '/includes/class-product-card-renderer.php';
 require_once __DIR__ . '/includes/adapters/wc-content-product-adapter.php';
 require_once __DIR__ . '/includes/adapters/programmatic-adapter.php';
@@ -206,7 +207,17 @@ function biopentra_loop_card_enqueue_assets() {
 	if ( ! class_exists( 'WooCommerce' ) ) {
 		return;
 	}
-	wp_register_style( 'biopentra-loop-card', BIOPENTRA_LOOP_CARD_URL . 'assets/loop-card.css', array(), BIOPENTRA_LOOP_CARD_VER );
+	$style_deps = array();
+	if ( wp_style_is( 'biopentra-bp-tokens', 'registered' ) || wp_style_is( 'biopentra-bp-tokens', 'enqueued' ) ) {
+		$style_deps[] = 'biopentra-bp-tokens';
+	}
+
+	wp_register_style(
+		'biopentra-loop-card',
+		BIOPENTRA_LOOP_CARD_URL . 'assets/loop-card.css',
+		$style_deps,
+		BIOPENTRA_LOOP_CARD_VER
+	);
 	wp_register_script( 'biopentra-loop-card', BIOPENTRA_LOOP_CARD_URL . 'assets/loop-card.js', array( 'jquery', 'wc-cart-fragments' ), BIOPENTRA_LOOP_CARD_VER, true );
 	wp_register_script(
 		'biopentra-shop-live-search',

@@ -482,6 +482,23 @@
 		root
 			.querySelectorAll('.biopentra-loop-card-root[data-biopentra-product]')
 			.forEach(enhance);
+
+		// Milestone D1 — promote first visible card image as LCP candidate.
+		// Elementor often forces loading=lazy in cached widget HTML; correct at enhance time.
+		if (!document.documentElement.hasAttribute('data-bp-lcp-card')) {
+			var firstImg = document.querySelector(
+				'.biopentra-loop-card-root .elementor-widget-theme-post-featured-image img, .biopentra-loop-card-root img'
+			);
+			if (firstImg) {
+				firstImg.setAttribute('loading', 'eager');
+				firstImg.setAttribute('fetchpriority', 'high');
+				var sizes = firstImg.getAttribute('sizes') || '';
+				if (sizes.indexOf('auto,') === 0) {
+					firstImg.setAttribute('sizes', sizes.replace(/^auto,\s*/i, ''));
+				}
+				document.documentElement.setAttribute('data-bp-lcp-card', '1');
+			}
+		}
 	}
 
 	window.biopentraLoopCardInit = init;
