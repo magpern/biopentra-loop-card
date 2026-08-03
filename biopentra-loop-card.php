@@ -22,7 +22,7 @@ require_once __DIR__ . '/includes/age-gate-confirm-fix.php';
 require_once __DIR__ . '/includes/store-notice.php';
 
 define( 'BIOPENTRA_LOOP_CARD_URL', plugin_dir_url( __FILE__ ) );
-define( 'BIOPENTRA_LOOP_CARD_VER', '1.6.0-' . filemtime( __DIR__ . '/assets/loop-card.js' ) );
+define( 'BIOPENTRA_LOOP_CARD_VER', '1.6.0' );
 
 /**
  * GitHub Release updater (admin / cron only).
