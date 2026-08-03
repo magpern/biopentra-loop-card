@@ -147,49 +147,22 @@ function biopentra_loop_card_render_related_research_products( $limit = 4 ) {
 		return '';
 	}
 
+	$grid = biopentra_loop_card_render_product_cards(
+		$ids,
+		array(
+			'context' => Biopentra_Loop_Card_Product_Card_Renderer::CONTEXT_RELATED,
+			'layout'  => 'compact-list',
+		)
+	);
+	if ( $grid === '' ) {
+		return '';
+	}
+
 	ob_start();
 	?>
-	<section class="bp-related-products" aria-labelledby="bp-related-products-title">
+	<section class="bp-related-products bp-related-products--canonical" aria-labelledby="bp-related-products-title">
 		<h2 id="bp-related-products-title" class="bp-related-products__title"><?php esc_html_e( 'Related research products', 'biopentra-loop-card' ); ?></h2>
-		<div class="bp-related-products__list">
-			<?php
-			foreach ( $ids as $related_id ) {
-				$related = wc_get_product( $related_id );
-				if ( ! $related || $related->get_status() !== 'publish' ) {
-					continue;
-				}
-
-				$url   = get_permalink( $related_id );
-				$name  = $related->get_name();
-				$image = $related->get_image(
-					'woocommerce_thumbnail',
-					array(
-						'class' => 'bp-related-products__image',
-						'alt'   => esc_attr( $name ),
-					)
-				);
-
-				$price_html = function_exists( 'biopentra_loop_card_format_grid_price_html' )
-					? biopentra_loop_card_format_grid_price_html( $related )
-					: $related->get_price_html();
-
-				$stock_label = biopentra_loop_card_related_stock_label( $related );
-				?>
-				<a class="bp-related-products__item" href="<?php echo esc_url( $url ); ?>">
-					<?php echo wp_kses_post( $image ); ?>
-					<span class="bp-related-products__content">
-						<span class="bp-related-products__name"><?php echo esc_html( $name ); ?></span>
-						<span class="bp-related-products__price"><?php echo wp_kses_post( $price_html ); ?></span>
-						<?php if ( $stock_label !== '' ) : ?>
-							<span class="bp-related-products__stock"><?php echo esc_html( $stock_label ); ?></span>
-						<?php endif; ?>
-						<span class="bp-related-products__link"><?php esc_html_e( 'View product', 'biopentra-loop-card' ); ?></span>
-					</span>
-				</a>
-				<?php
-			}
-			?>
-		</div>
+		<?php echo $grid; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 	</section>
 	<?php
 	return (string) ob_get_clean();

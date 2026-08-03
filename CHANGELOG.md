@@ -1,5 +1,25 @@
 # Changelog — Biopentra Loop Card
 
+## [1.6.0] - 2026-08-03
+
+### Added
+
+- Canonical product-card renderer service (`Biopentra_Loop_Card_Product_Card_Renderer`) with render contexts, Elementor 3608 rendering, fallback, and renderer versioning.
+- WooCommerce `content-product` adapter via `wc_get_template_part` for archives, search, related, upsells, and cross-sells.
+- Programmatic adapter for ordered product ID grids (sidebar related research, shortcodes).
+- Architecture reference: see biopentra-custom-plugins `canonical-product-card-architecture.md`.
+
+### Changed
+
+- Sidebar related research products use canonical renderer (compact layout) instead of custom card HTML.
+- WC loop integration CSS (`canonical-wc-loop.css`) for grid layout only — no forked card styling.
+
+## [1.5.0] - 2026-08-02
+
+### Changed
+
+- Milestone B: shop category copy below grid; live search on search results.
+
 ## [1.3.3] - 2026-05-28
 
 ### Changed

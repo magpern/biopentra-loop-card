@@ -1,0 +1,74 @@
+/**
+ * Canonical loop cards inside native WooCommerce product loops.
+ */
+
+ul.products.biopentra-canonical-wc-loop {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul.products.biopentra-canonical-wc-loop > li.product.biopentra-canonical-wc-loop-item {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+ul.products.biopentra-canonical-wc-loop > li.product.biopentra-canonical-wc-loop-item::before,
+ul.products.biopentra-canonical-wc-loop > li.product.biopentra-canonical-wc-loop-item::after {
+	display: none;
+}
+
+.biopentra-canonical-wc-loop .biopentra-canonical-loop-item,
+.biopentra-canonical-wc-loop .biopentra-loop-card-root {
+	width: 100%;
+	height: 100%;
+}
+
+.biopentra-canonical-product-grid {
+	display: grid;
+	gap: var(--bp-space-4, 1rem);
+}
+
+.biopentra-canonical-product-grid--grid {
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr));
+}
+
+.biopentra-canonical-product-grid--compact {
+	grid-template-columns: 1fr;
+	gap: var(--bp-space-3, 0.75rem);
+}
+
+.biopentra-canonical-loop-item--compact .biopentra-loop-card-root {
+	display: grid;
+	grid-template-columns: 64px 1fr;
+	grid-template-rows: auto auto;
+	align-items: center;
+	column-gap: var(--bp-space-3, 0.75rem);
+	padding: var(--bp-space-2, 0.5rem);
+}
+
+.biopentra-canonical-loop-item--compact .biopentra-loop-card-root .elementor-widget-theme-post-featured-image,
+.biopentra-canonical-loop-item--compact .biopentra-loop-card-root .biopentra-loop-card__media {
+	grid-row: 1 / span 2;
+	grid-column: 1;
+}
+
+.biopentra-canonical-loop-item--compact .biopentra-loop-card-root .elementor-widget-woocommerce-product-title,
+.biopentra-canonical-loop-item--compact .biopentra-loop-card-root .biopentra-loop-card__title {
+	grid-column: 2;
+	grid-row: 1;
+}
+
+.biopentra-canonical-loop-item--compact .biopentra-loop-card-root .elementor-widget-woocommerce-product-price,
+.biopentra-canonical-loop-item--compact .biopentra-loop-card-root .biopentra-loop-card__price {
+	grid-column: 2;
+	grid-row: 2;
+}
+
+.biopentra-canonical-loop-item--compact .biopentra-loop-card-action {
+	width: var(--bp-touch-min, 44px);
+	height: var(--bp-touch-min, 44px);
+}

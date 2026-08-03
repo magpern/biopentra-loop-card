@@ -1,6 +1,24 @@
 (function () {
 	'use strict';
 
+	/**
+	 * Move focus after the browser's own native "focus follows activation" step
+	 * for the button that was actually clicked or keyboard-activated — a plain
+	 * focus() call in the same task, or deferred only to the next microtask/
+	 * animation frame, reliably loses that race in this environment (measured:
+	 * requestAnimationFrame x2 still loses for keyboard-triggered Enter/Space;
+	 * setTimeout needs >=50ms measured under normal load). 300ms clears the
+	 * overlay opacity/visibility transition (0.22s in loop-card.css) before focus().
+	 */
+	var FOCUS_HANDOFF_DELAY_MS = 300;
+	function afterActivationSettles(fn) {
+		window.requestAnimationFrame(function () {
+			window.requestAnimationFrame(function () {
+				setTimeout(fn, FOCUS_HANDOFF_DELAY_MS);
+			});
+		});
+	}
+
 	function parsePayload(el) {
 		try {
 			return JSON.parse(el.getAttribute('data-biopentra-product') || '{}');
@@ -190,6 +208,7 @@
 
 	function setOverlayState(root, ui, data, state) {
 		var open = state !== 'closed';
+		var wasOpen = ui.ov.classList.contains('is-open');
 		if (state === 'closed') {
 			resetQuickState(ui, data);
 		}
@@ -199,6 +218,21 @@
 		root.classList.toggle('is-overlay-open', open);
 		root.classList.toggle('is-overlay-quick', state === 'quick');
 		ui.actionBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+
+		// Focus management: move focus into the overlay when it opens, and
+		// back to the "+" that opened it when it fully closes. Only on the
+		// closed<->open transition itself, not on menu<->quick sub-state
+		// changes, so focus never jumps unexpectedly mid-interaction.
+		// See afterActivationSettles() above for why this isn't a plain focus() call.
+		if (open && !wasOpen) {
+			afterActivationSettles(function () {
+				ui.closeBtn.focus({ preventScroll: true });
+			});
+		} else if (!open && wasOpen) {
+			afterActivationSettles(function () {
+				ui.actionBtn.focus({ preventScroll: true });
+			});
+		}
 	}
 
 	function openOverlay(root, ui, data, state) {
@@ -219,6 +253,11 @@
 			var imageLink = document.createElement('a');
 			imageLink.className = 'biopentra-loop-card-media-link';
 			imageLink.href = data.permalink;
+			// The title link is the card's one primary tab stop (stretched to
+			// cover the whole surface below); the image stays clickable but is
+			// removed from tab order so keyboard users don't hit the same
+			// destination twice per card.
+			imageLink.setAttribute('tabindex', '-1');
 			imageLink.setAttribute('aria-label', image.getAttribute('alt') || t('viewProduct'));
 			image.parentNode.insertBefore(imageLink, image);
 			imageLink.appendChild(image);
@@ -229,7 +268,10 @@
 		);
 		if (title && !title.querySelector('a')) {
 			var titleLink = document.createElement('a');
-			titleLink.className = 'biopentra-loop-card-title-link';
+			// biopentra-loop-card-stretch: stretched-link pattern (see loop-card.css)
+			// — makes the whole card surface a click target for this one real
+			// anchor, without JS navigation and without nested anchors.
+			titleLink.className = 'biopentra-loop-card-title-link biopentra-loop-card-stretch';
 			titleLink.href = data.permalink;
 			while (title.firstChild) {
 				titleLink.appendChild(title.firstChild);
@@ -405,6 +447,29 @@
 		ui.ov.addEventListener('click', function (e) {
 			e.stopPropagation();
 		});
+
+		ui.ov.addEventListener('keydown', function (e) {
+			if (e.key === 'Escape' || e.key === 'Esc') {
+				e.stopPropagation();
+				setOverlayState(root, ui, data, 'closed');
+			}
+		});
+
+		document.addEventListener(
+			'keydown',
+			function (e) {
+				if (!ui.ov.classList.contains('is-open')) {
+					return;
+				}
+				if (e.key !== 'Escape' && e.key !== 'Esc') {
+					return;
+				}
+				e.preventDefault();
+				e.stopPropagation();
+				setOverlayState(root, ui, data, 'closed');
+			},
+			true
+		);
 	}
 
 	function btnViewProminent(a) {

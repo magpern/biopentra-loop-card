@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Biopentra Loop Card
  * Description: Elementor Loop Grid: hover overlay (variation + AJAX add to cart), stock banners, card navigation.
- * Version: 1.5.0
+ * Version: 1.6.0
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Text Domain: biopentra-loop-card
@@ -22,7 +22,7 @@ require_once __DIR__ . '/includes/age-gate-confirm-fix.php';
 require_once __DIR__ . '/includes/store-notice.php';
 
 define( 'BIOPENTRA_LOOP_CARD_URL', plugin_dir_url( __FILE__ ) );
-define( 'BIOPENTRA_LOOP_CARD_VER', '1.5.0' );
+define( 'BIOPENTRA_LOOP_CARD_VER', '1.6.0-' . filemtime( __DIR__ . '/assets/loop-card.js' ) );
 
 /**
  * GitHub Release updater (admin / cron only).
@@ -39,6 +39,9 @@ add_action( 'plugins_loaded', 'biopentra_loop_card_init_github_updater', 9 );
 
 require_once __DIR__ . '/includes/shop-loop-filter.php';
 require_once __DIR__ . '/includes/shop-category-description.php';
+require_once __DIR__ . '/includes/class-product-card-renderer.php';
+require_once __DIR__ . '/includes/adapters/wc-content-product-adapter.php';
+require_once __DIR__ . '/includes/adapters/programmatic-adapter.php';
 require_once __DIR__ . '/includes/related-research-products.php';
 
 /**
@@ -215,7 +218,7 @@ function biopentra_loop_card_enqueue_assets() {
 	wp_enqueue_style( 'biopentra-loop-card' );
 	wp_enqueue_script( 'biopentra-loop-card' );
 	$shop_id   = (int) get_option( 'woocommerce_shop_page_id' );
-	$load_live = ( $shop_id && is_page( $shop_id ) ) || is_front_page() || is_search();
+	$load_live = ( $shop_id && is_page( $shop_id ) ) || is_front_page() || is_search() || is_product_taxonomy() || is_product();
 	if ( $load_live ) {
 		wp_enqueue_script( 'biopentra-shop-live-search' );
 		wp_localize_script(
