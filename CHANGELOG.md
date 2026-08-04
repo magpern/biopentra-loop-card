@@ -1,5 +1,11 @@
 # Changelog — Biopentra Loop Card
 
+## [1.6.1] - 2026-08-04
+
+### Added
+
+- Card image width/height/decoding attributes and first-card LCP promotion (`card-image-attributes.php`, `loop-card.js`) for Milestone D1 image budgets.
+
 ## [1.6.0] - 2026-08-03
 
 ### Added
