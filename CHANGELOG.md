@@ -9,7 +9,7 @@
 
 ### Release
 
-- Post-freeze corrective for PO review on DEV. Git tag: **`v1.6.3`**. Does not redesign M4. Production replay still requires an explicit GO.
+- **PO-approved / frozen on DEV** (2026-08-21). Git tag: **`v1.6.3`**. Post-freeze M4 desktop corrective. Production replay still requires an explicit GO.
 
 ## [1.6.2] - 2026-08-21
 

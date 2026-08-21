@@ -1,6 +1,6 @@
 # Biopentra Loop Card 1.6.3 — release notes (draft)
 
-**M4 desktop product-card corrective** (post-freeze). Awaiting Product Owner visual review on DEV before freeze tag.
+**M4 desktop product-card corrective** — **PO-approved / frozen on DEV** (2026-08-21).
 
 ## Fixes
 
@@ -17,6 +17,6 @@
 
 ## Install
 
-Deploy `biopentra-loop-card` **1.6.3** after PO approval and tagging as `v1.6.3`.
+Deploy `biopentra-loop-card` **1.6.3** / tag **`v1.6.3`**.
 
 Rollback: **1.6.2** / `v1.6.2`.
