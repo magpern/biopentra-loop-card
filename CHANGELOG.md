@@ -6,6 +6,10 @@
 
 - **M4 Premium card refinement:** stronger image presence (tighter inset, paper image ground, slightly taller image budget), teal title hierarchy, cyan price emphasis, quieter circular quick-add with Premium cyan accents — **preserving** soft/rounded/elevated card shell (no flat ~5px migration).
 
+### Release
+
+- **M4 PO-approved / frozen on dev.** Git tag: **`v1.6.2`**. Pair with `biopentra-storefront` **0.9.17** / `storefront-v0.9.17`. Production replay still requires an explicit GO.
+
 ## [1.6.1] - 2026-08-04
 
 ### Added
