@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Biopentra Loop Card
  * Description: Elementor Loop Grid: hover overlay (variation + AJAX add to cart), stock banners, card navigation.
- * Version: 1.6.1
+ * Version: 1.6.2
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Text Domain: biopentra-loop-card
@@ -22,7 +22,8 @@ require_once __DIR__ . '/includes/age-gate-confirm-fix.php';
 require_once __DIR__ . '/includes/store-notice.php';
 
 define( 'BIOPENTRA_LOOP_CARD_URL', plugin_dir_url( __FILE__ ) );
-define( 'BIOPENTRA_LOOP_CARD_VER', '1.6.1' );
+define( 'BIOPENTRA_LOOP_CARD_PATH', plugin_dir_path( __FILE__ ) );
+define( 'BIOPENTRA_LOOP_CARD_VER', '1.6.2' );
 
 /**
  * GitHub Release updater (admin / cron only).
@@ -212,11 +213,17 @@ function biopentra_loop_card_enqueue_assets() {
 		$style_deps[] = 'biopentra-bp-tokens';
 	}
 
+	$css_ver = BIOPENTRA_LOOP_CARD_VER;
+	$css_path = BIOPENTRA_LOOP_CARD_PATH . 'assets/loop-card.css';
+	if ( is_readable( $css_path ) ) {
+		$css_ver .= '.' . (string) filemtime( $css_path );
+	}
+
 	wp_register_style(
 		'biopentra-loop-card',
 		BIOPENTRA_LOOP_CARD_URL . 'assets/loop-card.css',
 		$style_deps,
-		BIOPENTRA_LOOP_CARD_VER
+		$css_ver
 	);
 	wp_register_script( 'biopentra-loop-card', BIOPENTRA_LOOP_CARD_URL . 'assets/loop-card.js', array( 'jquery', 'wc-cart-fragments' ), BIOPENTRA_LOOP_CARD_VER, true );
 	wp_register_script(

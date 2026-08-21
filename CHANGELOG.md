@@ -1,5 +1,11 @@
 # Changelog — Biopentra Loop Card
 
+## [1.6.2] - 2026-08-21
+
+### Changed
+
+- **M4 Premium card refinement:** stronger image presence (tighter inset, paper image ground, slightly taller image budget), teal title hierarchy, cyan price emphasis, quieter circular quick-add with Premium cyan accents — **preserving** soft/rounded/elevated card shell (no flat ~5px migration).
+
 ## [1.6.1] - 2026-08-04
 
 ### Added
