@@ -56,7 +56,7 @@
 		actionBtn.className = 'biopentra-loop-card-action';
 		actionBtn.setAttribute('aria-label', t('quickShop'));
 		actionBtn.innerHTML =
-			'<span class="biopentra-loop-card-action__icon" aria-hidden="true">+</span>';
+			'<span class="biopentra-loop-card-action__icon" aria-hidden="true"></span>';
 
 		var ov = document.createElement('div');
 		ov.className = 'biopentra-loop-overlay';

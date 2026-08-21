@@ -246,6 +246,29 @@
 	overflow: hidden;
 }
 
+/*
+ * Variation / quick-add step: content is taller than the closed card.
+ * Allow the overlay to grow so Close, label, pills, Clear, and Add stay fully
+ * visible (overflow:hidden + inset:0 was clipping the top of the selector).
+ */
+.biopentra-loop-card-root.is-overlay-open.is-overlay-quick {
+	overflow: visible;
+	z-index: 12;
+}
+
+.biopentra-loop-card-root.is-overlay-open.is-overlay-quick .biopentra-loop-overlay {
+	inset: 0 0 auto 0;
+	height: auto;
+	min-height: 100%;
+	overflow: visible;
+}
+
+.biopentra-loop-card-root.is-overlay-open.is-overlay-quick .biopentra-loop-overlay__quick {
+	overflow: visible;
+	justify-content: flex-start;
+	flex: 0 1 auto;
+}
+
 .biopentra-loop-card-action {
 	position: absolute;
 	top: 14px;
@@ -273,12 +296,38 @@
 		transform 0.15s ease;
 }
 
+/* Geometric + (pseudo bars) — avoids font-metric drift that off-centered the glyph. */
 .biopentra-loop-card-action__icon {
+	position: relative;
 	display: block;
-	margin-top: -1px;
-	font-size: 24px;
-	font-weight: 600;
-	line-height: 1;
+	width: 14px;
+	height: 14px;
+	margin: 0;
+	font-size: 0;
+	line-height: 0;
+	color: inherit;
+}
+
+.biopentra-loop-card-action__icon::before,
+.biopentra-loop-card-action__icon::after {
+	content: '';
+	position: absolute;
+	background: currentColor;
+	border-radius: 1px;
+}
+
+.biopentra-loop-card-action__icon::before {
+	width: 14px;
+	height: 2px;
+	left: 0;
+	top: 6px;
+}
+
+.biopentra-loop-card-action__icon::after {
+	width: 2px;
+	height: 14px;
+	left: 6px;
+	top: 0;
 }
 
 .biopentra-loop-card-action:hover:not(:disabled),
@@ -597,6 +646,23 @@
 	filter: grayscale(0.25);
 }
 
+/*
+ * Desktop image framing corrective (post-M4 freeze):
+ * SDS --bp-card-image-max-h (168px) collapsed min(248px, token) so desktop
+ * viewports were short+wide (~281×168) with object-fit:cover — vial tops clipped.
+ * Raise desktop budget only; ≤1024 media rules below stay the mobile/tablet baseline.
+ */
+@media (min-width: 1025px) {
+	.biopentra-loop-card-root {
+		--bp-loop-card-image-height: min(248px, 232px);
+	}
+
+	.biopentra-loop-card-root .elementor-widget-theme-post-featured-image img,
+	.biopentra-loop-card-root .biopentra-loop-card-media-link {
+		object-position: 50% 18%;
+	}
+}
+
 @media (max-width: 1024px) {
 	.biopentra-loop-card-root {
 		--bp-loop-card-image-height: 210px;
@@ -649,7 +715,20 @@
 	}
 
 	.biopentra-loop-card-action__icon {
-		font-size: 22px;
+		width: 13px;
+		height: 13px;
+	}
+
+	.biopentra-loop-card-action__icon::before {
+		width: 13px;
+		height: 2px;
+		top: 5.5px;
+	}
+
+	.biopentra-loop-card-action__icon::after {
+		width: 2px;
+		height: 13px;
+		left: 5.5px;
 	}
 
 	.biopentra-loop-card-oos-badge {

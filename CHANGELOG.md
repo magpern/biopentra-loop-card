@@ -1,5 +1,16 @@
 # Changelog — Biopentra Loop Card
 
+## [1.6.3] - 2026-08-21
+
+### Fixed
+
+- **M4 desktop corrective (post-freeze):** desktop product-image framing (taller ≥1025 image budget + top-biased `object-position`; keep `object-fit: cover`); optically centered quick-add glyph via geometric `+` (pseudo bars); variable-product quick-add panel no longer clips Close/label/options/Add (`is-overlay-quick` grows overlay, `overflow: visible`).
+- Mobile/tablet card geometry and image budgets unchanged (≤1024 rules preserved).
+
+### Release
+
+- Post-freeze corrective for PO review on DEV. Git tag: **`v1.6.3`**. Does not redesign M4. Production replay still requires an explicit GO.
+
 ## [1.6.2] - 2026-08-21
 
 ### Changed
