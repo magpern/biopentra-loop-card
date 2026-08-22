@@ -8,7 +8,11 @@
 
 ### Notes
 
-- Companion to storefront **0.9.28** M9 Shop Discovery. Untagged awaiting PO visual review of M9.
+- Companion to storefront **0.9.28–0.9.30** M9 Shop Discovery.
+
+### Release
+
+- **M9 companion — PO-approved / frozen on DEV** with storefront **`storefront-v0.9.30`**. Git tag: **`v1.6.4`**. Production replay not performed.
 
 ## [1.6.3] - 2026-08-21
 
