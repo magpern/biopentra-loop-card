@@ -1,5 +1,15 @@
 # Changelog — Biopentra Loop Card
 
+## [1.6.4] - 2026-08-22
+
+### Fixed
+
+- **M9 shop search:** when forcing the Elementor shop page as singular, clear main-query `is_search` / `s` so `/shop/?s=` keeps Elementor content and filters the loop grid via `$_GET['s']` (previously WP search template blanked the shop page).
+
+### Notes
+
+- Companion to storefront **0.9.28** M9 Shop Discovery. Untagged awaiting PO visual review of M9.
+
 ## [1.6.3] - 2026-08-21
 
 ### Fixed

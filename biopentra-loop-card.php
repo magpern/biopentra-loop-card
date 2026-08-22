@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Biopentra Loop Card
  * Description: Elementor Loop Grid: hover overlay (variation + AJAX add to cart), stock banners, card navigation.
- * Version: 1.6.3
+ * Version: 1.6.4
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Text Domain: biopentra-loop-card
@@ -23,7 +23,7 @@ require_once __DIR__ . '/includes/store-notice.php';
 
 define( 'BIOPENTRA_LOOP_CARD_URL', plugin_dir_url( __FILE__ ) );
 define( 'BIOPENTRA_LOOP_CARD_PATH', plugin_dir_path( __FILE__ ) );
-define( 'BIOPENTRA_LOOP_CARD_VER', '1.6.3' );
+define( 'BIOPENTRA_LOOP_CARD_VER', '1.6.4' );
 
 /**
  * GitHub Release updater (admin / cron only).
@@ -469,6 +469,10 @@ function biopentra_loop_card_force_singular_page_for_elementor_shop( $query ) {
 	$query->set( 'post__in', array() );
 	$query->set( 'tax_query', array() );
 	$query->set( 'meta_query', array() );
+	// Keep $_GET['s'] for Elementor loop filtering, but do not run the main
+	// query as a WP search — that swaps Elementor shop content for a blank
+	// search template (M9 shop discovery / pre-existing shop ?s= gap).
+	$query->set( 's', '' );
 
 	$query->is_archive             = false;
 	$query->is_post_type_archive   = false;
@@ -478,6 +482,7 @@ function biopentra_loop_card_force_singular_page_for_elementor_shop( $query ) {
 	$query->is_singular            = true;
 	$query->is_home                = false;
 	$query->is_404                 = false;
+	$query->is_search              = false;
 }
 add_action( 'pre_get_posts', 'biopentra_loop_card_force_singular_page_for_elementor_shop', 9999 );
 
