@@ -202,6 +202,22 @@
 	}
 }
 
+/* M3 card ratings — injected after title; flag-gated in PHP. */
+.biopentra-loop-card-root .biopentra-loop-card__rating {
+	margin: 4px 12px 0;
+	text-align: center;
+	line-height: 1;
+	position: relative;
+	z-index: 2;
+}
+
+.biopentra-loop-card-root .biopentra-loop-card__rating .star-rating {
+	float: none;
+	display: inline-block;
+	margin: 0 auto;
+	font-size: 0.785em;
+}
+
 .biopentra-loop-card-root .elementor-element.elementor-widget-woocommerce-product-price {
 	margin: 2px 12px 0 !important;
 	text-align: center;

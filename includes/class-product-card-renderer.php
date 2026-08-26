@@ -240,10 +240,19 @@ final class Biopentra_Loop_Card_Product_Card_Renderer {
 			$attrs .= ' data-biopentra-render-context="' . esc_attr( $context ) . '"';
 		}
 
+		$rating = function_exists( 'biopentra_loop_card_get_rating_html' )
+			? biopentra_loop_card_get_rating_html( $product )
+			: '';
+
 		ob_start();
 		?>
 		<div <?php echo $attrs; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> data-biopentra-product="<?php echo esc_attr( wp_json_encode( $payload ) ); ?>">
 			<a class="biopentra-loop-card-title-link biopentra-loop-card-stretch" href="<?php echo esc_url( $url ); ?>"><?php echo esc_html( $name ); ?></a>
+			<?php
+			if ( $rating !== '' ) {
+				echo $rating; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built from WC helpers + escaped count/avg wrappers.
+			}
+			?>
 			<div class="biopentra-loop-card__price"><?php echo wp_kses_post( $price ); ?></div>
 		</div>
 		<?php

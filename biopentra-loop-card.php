@@ -42,6 +42,7 @@ require_once __DIR__ . '/includes/shop-loop-filter.php';
 require_once __DIR__ . '/includes/shop-category-description.php';
 require_once __DIR__ . '/includes/card-image-attributes.php';
 require_once __DIR__ . '/includes/class-product-card-renderer.php';
+require_once __DIR__ . '/includes/card-ratings.php';
 require_once __DIR__ . '/includes/adapters/wc-content-product-adapter.php';
 require_once __DIR__ . '/includes/adapters/programmatic-adapter.php';
 require_once __DIR__ . '/includes/related-research-products.php';

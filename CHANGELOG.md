@@ -1,5 +1,11 @@
 # Changelog — Biopentra Loop Card
 
+## Unreleased
+
+### Added
+
+- **M3 / WP8 card ratings:** feature flag `biopentra_loop_card_ratings_enabled` (default off; prefers UPR host `enable_card_ratings` when present). When enabled, shows WC average rating via `get_average_rating()` / `get_review_count()` only if count ≥ 3 (or host `card_ratings_min_count`). Injected after the Elementor title widget / fallback card as `.biopentra-loop-card__rating` — no template 3608 migration.
+
 ## [1.6.4] - 2026-08-22
 
 ### Fixed
