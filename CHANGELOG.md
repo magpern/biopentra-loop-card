@@ -1,6 +1,17 @@
 # Changelog — Biopentra Loop Card
 
-## Unreleased
+## [1.7.0] - 2026-09-02
+
+### Changed
+
+- **Updates:** the plugin now self-updates from a private update server using the
+  bundled [Plugin Update Checker](https://github.com/YahnisElsts/plugin-update-checker)
+  v5 library (`vendor/plugin-update-checker/`). The server base URL is read from
+  the `BIOPENTRA_UPDATE_SERVER` constant (define it in `wp-config.php`); when it is
+  not defined the plugin does not check for updates. The bespoke GitHub-release
+  updater (`includes/class-github-updater.php`) has been removed.
+- CI: a publish workflow uploads the release ZIP to the update server on every
+  release tag.
 
 ### Added
 

@@ -117,10 +117,13 @@ def verify(zip_path: str, expected_version: str | None) -> int:
             return 1
 
         if not any(
-            n.startswith(f"{root_prefix}includes/class-github-updater.php")
+            n.startswith(f"{root_prefix}vendor/plugin-update-checker/plugin-update-checker.php")
             for n in names
         ):
-            print("ERROR: missing includes/class-github-updater.php", file=sys.stderr)
+            print(
+                "ERROR: missing vendor/plugin-update-checker/plugin-update-checker.php",
+                file=sys.stderr,
+            )
             return 1
 
         print(f"OK: {len(names)} entries under {root_prefix}")

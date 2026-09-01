@@ -51,7 +51,7 @@ mkdir -p "${OUT_DIR}" "${PACKAGE_DIR}"
 tar -C "${REPO_ROOT}" \
 	--exclude='.git' \
 	--exclude='.github' \
-	--exclude='vendor' \
+	--exclude='vendor/bin' \
 	--exclude='node_modules' \
 	--exclude='scripts' \
 	--exclude='tests' \
