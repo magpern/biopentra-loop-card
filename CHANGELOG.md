@@ -1,5 +1,12 @@
 # Changelog — Biopentra Loop Card
 
+## [1.7.1] - 2026-09-02
+
+### Changed
+
+- Update-server constant renamed `BIOPENTRA_UPDATE_SERVER` -> `PRIVATE_UPDATE_SERVER`
+  (brand-neutral; one constant for all Biopentra plugins/themes).
+
 ## [1.7.0] - 2026-09-02
 
 ### Changed

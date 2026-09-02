@@ -2,7 +2,7 @@
 Contributors: magpern
 Requires at least: 6.0
 Requires PHP: 7.4
-Stable tag: 1.7.0
+Stable tag: 1.7.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,6 +20,9 @@ WordPress plugin for Elementor Loop Grid product cards on WooCommerce shops.
 Requires WooCommerce and Elementor Pro (Loop Grid).
 
 == Changelog ==
+
+= 1.7.1 =
+* Update-server constant renamed to PRIVATE_UPDATE_SERVER (brand-neutral, shared across all Biopentra plugins). Define it in wp-config.php.
 
 = 1.7.0 =
 * Automatic updates now come from the private update server via the bundled Plugin Update Checker library; the previous direct GitHub-release updater has been removed.

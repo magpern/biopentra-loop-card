@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Biopentra Loop Card
  * Description: Elementor Loop Grid: hover overlay (variation + AJAX add to cart), stock banners, card navigation.
- * Version: 1.7.0
+ * Version: 1.7.1
  * Requires at least: 6.0
  * Requires PHP: 7.4
  * Text Domain: biopentra-loop-card
@@ -23,19 +23,19 @@ require_once __DIR__ . '/includes/store-notice.php';
 
 define( 'BIOPENTRA_LOOP_CARD_URL', plugin_dir_url( __FILE__ ) );
 define( 'BIOPENTRA_LOOP_CARD_PATH', plugin_dir_path( __FILE__ ) );
-define( 'BIOPENTRA_LOOP_CARD_VER', '1.7.0' );
+define( 'BIOPENTRA_LOOP_CARD_VER', '1.7.1' );
 
 /**
  * Automatic updates via the private update server.
  *
- * Define BIOPENTRA_UPDATE_SERVER (scheme + host, no trailing slash) in
+ * Define PRIVATE_UPDATE_SERVER (scheme + host, no trailing slash) in
  * wp-config.php to enable; when it is not defined the plugin simply does not
  * check for updates.
  */
-if ( defined( 'BIOPENTRA_UPDATE_SERVER' ) && BIOPENTRA_UPDATE_SERVER ) {
+if ( defined( 'PRIVATE_UPDATE_SERVER' ) && PRIVATE_UPDATE_SERVER ) {
 	require_once __DIR__ . '/vendor/plugin-update-checker/plugin-update-checker.php';
 	\YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
-		rtrim( BIOPENTRA_UPDATE_SERVER, '/' ) . '/?action=get_metadata&slug=biopentra-loop-card',
+		rtrim( PRIVATE_UPDATE_SERVER, '/' ) . '/?action=get_metadata&slug=biopentra-loop-card',
 		__FILE__,
 		'biopentra-loop-card'
 	);
